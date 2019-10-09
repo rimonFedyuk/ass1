@@ -1,0 +1,49 @@
+== README
+
+==Users API
+
+Methods:
+
+* show user:
+
+<tt>request:</tt>
+GET http://localhost:3000/users/{:id}
+
+<tt>response:</tt>
+{
+    "id": 1,
+    "first_name": "rimon",
+    "last_name": "fedyuk"
+}
+
+* update user:
+
+<tt>request:</tt>
+PUT http://localhost:3000/users/{:id}
+Content-Type: application/json
+{
+	"first_name": "rimon test",
+	"last_name": "fedyuk test"
+}
+
+<tt>response:</tt>
+{
+    "id": 1,
+    "first_name": "rimon test",
+    "last_name": "fedyuk test"
+}
+
+* create user:
+
+<tt>request:</tt>
+POST http://localhost:3000/users
+Content-Type: application/json
+{
+	"first_name": "rimon",
+	"last_name": "fedyuk"
+}
+
+<tt>response:</tt>
+{
+    "id": 1
+}
