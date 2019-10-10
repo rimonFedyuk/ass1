@@ -10,7 +10,7 @@ class UsersController < ApplicationController
       return
     end
 
-    render json: {:id => user.id, :first_name => user.first_name, :last_name => user.last_name}.to_json
+    render json: {id: user.id, first_name: user.first_name, last_name: user.last_name}.to_json
   end
 
   def update
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     end
 
     user.update(user_param)
-    render json: {:id => user.id, :first_name => user.first_name, :last_name => user.last_name}.to_json
+    render json: {id: user.id, first_name: user.first_name, last_name: user.last_name}.to_json
   end
 
   def create
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
 
     user.save
 
-    render json: {:id => user.id}.to_json
+    render json: {id: user.id}.to_json
   end
 
   private
