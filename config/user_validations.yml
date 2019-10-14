@@ -1,0 +1,12 @@
+defaults: &defaults
+  user:
+    min_length: 3
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

@@ -4,46 +4,77 @@
 
 Methods:
 
-* show user:
+* Show user:
 
-<tt>request:</tt>
+<tt>Request:</tt>
 GET http://localhost:3000/users/{:id}
 
-<tt>response:</tt>
+<tt>Response:</tt>
 {
     "id": 1,
     "first_name": "rimon",
     "last_name": "fedyuk"
 }
 
-* update user:
+* Update user:
 
-<tt>request:</tt>
+<tt>Request:</tt>
 PUT http://localhost:3000/users/{:id}
+
+<tt>Headers:</tt>
 Content-Type: application/json
+
+<tt>Body:</tt>
 {
-	"first_name": "rimon test",
-	"last_name": "fedyuk test"
+    "first_name": "rimon",
+    "last_name": "fedyuk"
 }
 
-<tt>response:</tt>
+<tt>Response:</tt>
 {
     "id": 1,
     "first_name": "rimon test",
     "last_name": "fedyuk test"
 }
 
-* create user:
+* Create user:
 
-<tt>request:</tt>
+<tt>Request:</tt>
 POST http://localhost:3000/users
+
+<tt>Headers:</tt>
 Content-Type: application/json
+
+<tt>Body:</tt>
 {
-	"first_name": "rimon",
-	"last_name": "fedyuk"
+    "first_name": "rimon test",
+    "last_name": "fedyuk test"
 }
 
-<tt>response:</tt>
+<tt>Response:</tt>
 {
     "id": 1
+}
+
+* create multiple users:
+
+<tt>Request:</tt>
+POST http://localhost:3000/users/create_multi
+
+<tt>Headers:</tt>
+Content-Type: application/json
+
+<tt>Body:</tt>
+{
+    "users": [
+        {
+            "first_name": "rimon1",
+            "last_name": "fedyuk1"
+        },
+        {
+            "first_name": "rimon2",
+            "last_name": "fedyuk2"
+        },
+        ...
+    ]
 }
