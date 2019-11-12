@@ -45,24 +45,21 @@ class UsersController < ApplicationController
   end
 
   def create_multi
-
-    data = user_params[:users]
-
-    users = []
+    data   = user_params.fetch(:users)
+    users  = []
     errors = []
 
-    data.each { |user|
-      new_user = User.new(user)
+    data.each do |user|
+      new_user = ::User.new(user)
 
-      unless new_user.valid?
-        user[:error] = new_user.errors.messages
-        errors << user
+      if new_user.valid?
+        users << new_user
+      else
+        errors << user.merge!(error: new_user.errors.messages)
       end
+    end
 
-      users << new_user
-    }
-
-    if errors.length > 0
+    if errors.present?
       render json: {messages: errors, error: :user_invalid}, status: :bad_request
       return
     end
