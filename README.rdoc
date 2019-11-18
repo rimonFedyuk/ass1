@@ -7,34 +7,42 @@ Methods:
 * Show user:
 
 <tt>Request:</tt>
-GET http://localhost:3000/users/{:id}
+GET http://localhost:3000/users
+
+<tt>Headers:</tt>
+Authorization: {current_session_token}
 
 <tt>Response:</tt>
 {
     "id": 1,
     "first_name": "rimon",
-    "last_name": "fedyuk"
+    "last_name": "fedyuk",
+    "email": "rimon.fedyuk@lemonade.com",
 }
 
 * Update user:
 
 <tt>Request:</tt>
-PUT http://localhost:3000/users/{:id}
+PUT http://localhost:3000/users
 
 <tt>Headers:</tt>
 Content-Type: application/json
+Authorization: {current_session_token}
 
 <tt>Body:</tt>
 {
     "first_name": "rimon",
-    "last_name": "fedyuk"
+    "last_name": "fedyuk",
+    "email": "rimon.fedyuk@lemonade.com",
+    "passwored": "Aa12345$"
 }
 
 <tt>Response:</tt>
 {
     "id": 1,
     "first_name": "rimon test",
-    "last_name": "fedyuk test"
+    "last_name": "fedyuk test",
+    "email": "rimon.fedyuk@lemonade.com",
 }
 
 * Create user:
@@ -48,12 +56,18 @@ Content-Type: application/json
 <tt>Body:</tt>
 {
     "first_name": "rimon test",
-    "last_name": "fedyuk test"
+    "last_name": "fedyuk test",
+    "email": "rimon.fedyuk@lemonade.com",
+    "passwored": "Aa12345$"
 }
 
 <tt>Response:</tt>
 {
-    "id": 1
+    "id": 1,
+    "first_name": "rimon test",
+    "last_name": "fedyuk test",
+    "email": "rimon.fedyuk@lemonade.com",
+    "passwored": "Aa12345$"
 }
 
 * create multiple users:
@@ -78,3 +92,34 @@ Content-Type: application/json
         ...
     ]
 }
+
+* Sign in:
+
+<tt>Request:</tt>
+POST http://localhost:3000/users/sign_in
+
+<tt>Headers:</tt>
+Content-Type: application/json
+
+<tt>Body:</tt>
+{
+    "email": "rimon.fedyuk@lemonade.com",
+    "passwored": "Aa12345$"
+}
+
+<tt>Response:</tt>
+{
+    "id": 1,
+    "first_name": "rimon test",
+    "last_name": "fedyuk test",
+    "email": "rimon.fedyuk@lemonade.com",
+    "current_session_token": "42642bd8a3b48fb895ce7d3b4d5c42020f261259b2e0fe28768f827efb04e0d6"
+}
+
+* Sign out:
+
+<tt>Request:</tt>
+POST http://localhost:3000/users/sign_out
+
+<tt>Headers:</tt>
+Authorization: {current_session_token}
