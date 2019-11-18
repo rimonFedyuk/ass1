@@ -1,47 +1,25 @@
+require 'contexts/user'
+
 class UsersController < ApplicationController
 
   skip_before_action :verify_authenticity_token
+  before_filter      :authenticate, :except => [ :create, :create_multi, :sign_in ]
 
   def show
-    user = User.find_by(id: params[:id])
-
-    unless user
-      render json: {message: 'user not found', error: :user_not_found}, status: :not_found
-      return
-    end
-
-    render json: {id: user.id, first_name: user.first_name, last_name: user.last_name}.to_json
+    render Context::Response.new(@current_user).perform
   end
 
   def update
-    user = User.find_by(id: params[:id])
-
-    unless user
-      render json: {message: 'user not found', error: :user_not_found}, status: :not_found
-      return
-    end
-
-    user.update(user_param)
-
-    unless user.valid?
-      render json: {message: user.errors.messages, error: :user_invalid}, status: :bad_request
-      return
-    end
-
-    render json: {id: user.id, first_name: user.first_name, last_name: user.last_name}.to_json
+    @current_user.update(user_param)
+    return render Context::Response.new(@current_user.errors.messages, :user_invalid, :bad_request).perform unless @current_user.valid?
+    render Context::Response.new(@current_user).perform
   end
 
   def create
-    user = User.new(user_param)
-
-    unless user.valid?
-      render json: {message: user.errors.messages, error: :user_invalid}, status: :bad_request
-      return
-    end
-
-    user.save
-
-    render json: {id: user.id}.to_json
+    @current_user = User.new(user_param)
+    return render Context::Response.new(@current_user.errors.messages, :user_invalid, :bad_request).perform unless @current_user.valid?
+    @current_user.save
+    render Context::Response.new(@current_user).perform
   end
 
   def create_multi
@@ -59,24 +37,34 @@ class UsersController < ApplicationController
       end
     end
 
-    if errors.present?
-      render json: {messages: errors, error: :user_invalid}, status: :bad_request
-      return
-    end
-
+    return render Context::Response.new(errors, :user_invalid, :bad_request).perform if errors.present?
     User.import(users)
+    render Context::Response.new({}).perform
+  end
 
-    render json: {}, status: :ok
+  def sign_in
+    result = Context::User.sign_in(sign_in_param.dup)
+    render result.perform
+  end
+
+  def sign_out
+    result = Context::User.sign_out(@current_user)
+    render result.perform
+
   end
 
   private
 
   def user_params
-    params.permit(users: [:first_name, :last_name])
+    params.permit(users: [:first_name, :last_name, :email, :password])
   end
 
   def user_param
-    params.permit(:first_name, :last_name)
+    params.permit(:first_name, :last_name, :email, :password)
+  end
+
+  def sign_in_param
+    params.permit(:email, :password)
   end
 
 end

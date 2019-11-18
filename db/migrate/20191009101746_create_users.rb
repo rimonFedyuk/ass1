@@ -2,9 +2,9 @@ class CreateUsers < ActiveRecord::Migration
 
   def self.up
     create_table :users do |t|
-      t.string :first_name
-      t.string :last_name
-      t.column :created_at, :timestamp, :default => DateTime.now
+      t.string    :first_name
+      t.string    :last_name
+      t.timestamp :created_at
     end
   end
 
