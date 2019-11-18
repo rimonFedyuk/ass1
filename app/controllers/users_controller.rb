@@ -3,7 +3,7 @@ require 'contexts/user'
 class UsersController < ApplicationController
 
   skip_before_action :verify_authenticity_token
-  before_filter      :authenticate, :except => [ :create, :create_multi, :sign_in ]
+  before_filter      :authenticate, except: [ :create, :create_multi, :sign_in ]
 
   def show
     render Context::Response.new(@current_user).perform
